@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, CanActivate} from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { FirstChildComponent } from './first-child/first-child.component';
 import { SecondChildComponent } from './second-child/second-child.component';
 import { SubChildComponent } from './sub-child/sub-child.component';
+
+import {AuthService as UserGuard} from './auth/auth.service';
+
 const routes: Routes = [
   {
     path: 'login',
@@ -13,15 +16,9 @@ const routes: Routes = [
       title: 'Login'
     }
   },
-  // {
-  //   path: 'home',
-  //   component: HomeComponent,
-  //   data: {
-  //     title: 'home'
-  //   }
-  // },
   {
     path: 'home',
+    canActivate: [ UserGuard ],
     data: {
       title: HomeComponent
     },
@@ -33,6 +30,7 @@ const routes: Routes = [
       },
       {
         path: ':first',
+        
         children: [
           {
             path: '',
@@ -52,6 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'second',
+        canActivate: [ UserGuard ],
         component: SecondChildComponent,
         data: {
           title: 'Second Child'
